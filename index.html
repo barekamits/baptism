@@ -19,13 +19,15 @@
       z-index: 100;
       background: black;
     }
-    video#bg-video {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      object-fit: cover;
-      z-index: -1;
-    }
+video#bg-video {
+  position: fixed;
+  top: 0; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;  /* Այստեղ cover, ոչ contain */
+  z-index: -1;
+}
     .slider {
       
       position: fixed;
@@ -93,7 +95,7 @@
 <body>
   <!-- Կովերը՝ վիդեո + սլայդեր -->
   <div id="cover">
-    <video id="bg-video" autoplay muted>
+    <video id="bg-video" autoplay muted playsinline>
       <source src="assets/IMG_1009.MP4" type="video/mp4">
       Ձեր դիտարկիչը չի աջակցում վիդեո ցուցադրմանը։
     </video>
