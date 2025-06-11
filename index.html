@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+  <meta charset="UTF-8" />
+  <title>Video Background Test</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      overflow: hidden;
+      background:white;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+    /* --- Cover (վիդեո + սլայդեր) --- */
+    #cover {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: 100;
+      background: black;
+    }
+    video#bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      object-fit: cover;
+      z-index: -1;
+    }
+    .slider {
+      
+      position: fixed;
+      bottom: 13%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 49px;
+      border: 2px silver solid;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      cursor: pointer;
+      padding: 3px;
+      box-sizing: border-box;
+      z-index: 10;
+      background: rgba(0,0,0,0.3);
+    }
+    .circle {
+      width: 40px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: transparent;
+      border: 2px silver;
+      position: absolute;
+      right: 1px;
+      z-index: 1;
+    }
+    .arrow {
+      width: 44px;
+      height: 44px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: 3px;
+      transition: left 0.5s ease;
+      z-index: 2;
+      font-size: 24px;
+      color: black;
+      user-select: none;
+    }
+    .arrow svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
+    #main-content {
+      display: none;
+      padding: 40px;
+      max-width: 800px;
+      margin: 100px auto;
+      text-align: center;
+      font-size: 24px;
+      line-height: 1.5;
+      z-index: 1;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <!-- Կովերը՝ վիդեո + սլայդեր -->
+  <div id="cover">
+    <video id="bg-video" autoplay muted>
+      <source src="assets/IMG_1009.MP4" type="video/mp4">
+      Ձեր դիտարկիչը չի աջակցում վիդեո ցուցադրմանը։
+    </video>
+
+    <div class="slider" id="slider">
+      <div class="arrow" id="arrow">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 18l6-6-6-6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="circle" id="end-zone"></div>
+    </div>
+  </div>
+
+  <!-- Հիմնական կոնտենտը, որը կցուցադրվի սլայդի ավարտից հետո -->
+  <div id="main-content">
+    <h1>Բարի գալուստ հիմնական էջ</h1>
+    <p>Սա մաքուր կոնտենտ է, որը կապ չունի վիդեոյի հետ։</p>
+    <p>Այստեղ կարող ես գրել ցանկացած ինչ, օրինակ՝ բլոգ, կայքի հիմնական ինֆո կամ խաղեր։</p>
+  </div>
+
+  <script>
+    const video = document.getElementById('bg-video');
+    const cover = document.getElementById('cover');
+    const slider = document.getElementById('slider');
+    const arrow = document.getElementById('arrow');
+    const mainContent = document.getElementById('main-content');
+
+    video.addEventListener('ended', () => {
+      video.pause();
+    });
+
+    let isDragging = false;
+    let startX = 0;
+
+    arrow.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      arrow.style.transition = 'none';
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        arrow.style.transition = 'left 0.5s ease';
+        const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+        if (parseInt(arrow.style.left) < maxOffset) {
+          arrow.style.left = '3px';
+        }
+      }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+
+      const dx = e.clientX - startX;
+      const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+      let newLeft = Math.max(3, Math.min(3 + dx, maxOffset));
+      arrow.style.left = `${newLeft}px`;
+
+      if (newLeft >= maxOffset) {
+        isDragging = false;
+
+        // Թաքցնել cover-ը (vid + slider)
+        cover.style.display = 'none';
+
+        // Ցույց տալ հիմնական կոնտենտը
+        mainContent.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
