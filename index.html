@@ -28,6 +28,12 @@ video#bg-video {
   object-fit: cover;  /* Այստեղ cover, ոչ contain */
   z-index: -1;
 }
+    @media (max-width: 768px) {
+  video#bg-video {
+    object-fit: contain;
+    background-color: black; /* կամ տիրույթի ֆոնի գույն */
+  }
+}
     .slider {
       
       position: fixed;
@@ -47,6 +53,15 @@ video#bg-video {
       z-index: 10;
       background: rgba(0,0,0,0.3);
     }
+    @media (max-width: 400px) {
+  .slider {
+    height: 45px;
+  }
+  .arrow, .circle {
+    width: 42px;
+    height: 42px;
+  }
+}
     .circle {
       width: 40px;
       height: 44px;
