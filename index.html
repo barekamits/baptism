@@ -118,54 +118,64 @@ video#bg-video {
   </div>
 
   <script>
-    const video = document.getElementById('bg-video');
-    const cover = document.getElementById('cover');
-    const slider = document.getElementById('slider');
-    const arrow = document.getElementById('arrow');
-    const mainContent = document.getElementById('main-content');
+  // Touch start
+arrow.addEventListener('touchstart', (e) => {
+  isDragging = true;
+  startX = e.touches[0].clientX;
+  arrow.style.transition = 'none';
+  video.play().catch(() => {});
+});
 
-    video.addEventListener('ended', () => {
-      video.pause();
-    });
+// Mouse up
+document.addEventListener('mouseup', () => {
+  if (isDragging) {
+    isDragging = false;
+    arrow.style.transition = 'left 0.5s ease';
+    const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+    if (parseInt(arrow.style.left) < maxOffset) {
+      arrow.style.left = '3px';
+    }
+  }
+});
 
-    let isDragging = false;
-    let startX = 0;
+// Touch end
+document.addEventListener('touchend', () => {
+  if (isDragging) {
+    isDragging = false;
+    arrow.style.transition = 'left 0.5s ease';
+    const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+    if (parseInt(arrow.style.left) < maxOffset) {
+      arrow.style.left = '3px';
+    }
+  }
+});
 
-    arrow.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      arrow.style.transition = 'none';
-    });
+// Mouse move
+document.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  moveArrow(e.clientX);
+});
 
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        arrow.style.transition = 'left 0.5s ease';
-        const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
-        if (parseInt(arrow.style.left) < maxOffset) {
-          arrow.style.left = '3px';
-        }
-      }
-    });
+// Touch move
+document.addEventListener('touchmove', (e) => {
+  if (!isDragging) return;
+  moveArrow(e.touches[0].clientX);
+});
 
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
+// Ընդհանուր ֆունկցիա՝ մկնիկ/մատ շարժելու համար
+function moveArrow(currentX) {
+  const dx = currentX - startX;
+  const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+  let newLeft = Math.max(3, Math.min(3 + dx, maxOffset));
+  arrow.style.left = `${newLeft}px`;
 
-      const dx = e.clientX - startX;
-      const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
-      let newLeft = Math.max(3, Math.min(3 + dx, maxOffset));
-      arrow.style.left = `${newLeft}px`;
+  if (newLeft >= maxOffset) {
+    isDragging = false;
+    cover.style.display = 'none';
+    mainContent.style.display = 'block';
+  }
+}
 
-      if (newLeft >= maxOffset) {
-        isDragging = false;
-
-        // Թաքցնել cover-ը (vid + slider)
-        cover.style.display = 'none';
-
-        // Ցույց տալ հիմնական կոնտենտը
-        mainContent.style.display = 'block';
-      }
-    });
   </script>
 </body>
 </html>
