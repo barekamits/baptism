@@ -2,6 +2,7 @@
 <html lang="hy">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Video Background Test</title>
   <style>
     body, html {
@@ -10,6 +11,7 @@
       background:white;
       color: white;
       font-family: Arial, sans-serif;
+      touch-action: none; /* Ավելացրել ենք touch-action */
     }
 
     /* Կառավարում ենք իրական viewport-ի բարձրությունը մոբայլում */
@@ -37,73 +39,74 @@
       z-index: -1;
     }
 
-    /* Սլայդեր */
-    .slider {
-      position: absolute;
-      width: 280px;
-      height: 60px;
-      bottom: 15%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      padding: 0 3px;
-      z-index: 102;
-    }
+/* Սլայդեր */
+.slider {
+  position: absolute;
+  width: 280px;
+  height: 60px;
+  bottom: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.4); /* Փոխված է սպիտակից սևի */
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  padding: 0 3px;
+  z-index: 102;
+  touch-action: none;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Ավելացրել եմ border */
+}
 
-    .arrow {
-      width: 54px;
-      height: 54px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      position: absolute;
-      left: 3px;
-      transition: left 0.5s ease;
-      z-index: 103;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
+.arrow {
+  width: 54px;
+  height: 54px;
+  background: rgba(255, 255, 255, 0.9); /* Փոքր-ինչ ավելի մուգ սպիտակ */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  left: 3px;
+  transition: left 0.5s ease;
+  z-index: 103;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3); /* Ավելի նկատելի ստվեր */
+}
 
-    .arrow svg {
-      width: 20px;
-      height: 20px;
-    }
+.circle {
+  width: 54px;
+  height: 54px;
+  background: rgba(0, 0, 0, 0.3); /* Փոխված է սպիտակից սևի */
+  border-radius: 50%;
+  position: absolute;
+  right: 3px;
+  z-index: 101;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Ավելացրել եմ border */
+}
 
-    .circle {
-      width: 54px;
-      height: 54px;
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 50%;
-      position: absolute;
-      right: 3px;
-      z-index: 101;
-    }
+@media (max-width: 768px) {
+  .slider {
+    width: 270px;
+    height: 70px;
+    bottom: 15vh;
+    background: rgba(0, 0, 0, 0.4); /* Նույնը մոբայլի համար */
+  }
 
-    @media (max-width: 768px) {
-      .slider {
-        width: 270px;
-        height: 70px;
-        bottom: 15%;             /* Փոխել ենք 25%-ից իջեցված արժեքի */
-        left: 50%;
-        transform: translateX(-50%);
-      }
+  .arrow, .circle {
+    width: 60px;
+    height: 60px;
+  }
 
-      .arrow, .circle {
-        width: 60px;
-        height: 60px;
-      }
+  .arrow {
+    background: rgba(255, 255, 255, 0.9); /* Նույնը մոբայլի համար */
+  }
 
-      .arrow svg {
-        width: 20px;
-        height: 20px;
-      }
-    }
+  .circle {
+    background: rgba(0, 0, 0, 0.3); /* Նույնը մոբայլի համար */
+  }
+}
+
 
     /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
     #main-content {
@@ -123,7 +126,7 @@
 <body>
   <!-- Կովերը՝ վիդեո + սլայդեր -->
   <div id="cover">
-    <video id="bg-video" autoplay muted playsinline>
+    <video id="bg-video" autoplay muted playsinline loop>
       <source src="IMG_1009.MP4" type="video/mp4">
       Ձեր դիտարկիչը չի աջակցում վիդեո ցուցադրմանը։
     </video>
@@ -164,25 +167,37 @@
 
     let isDragging = false;
     let startX = 0;
+    let startLeft = 0;
 
     function moveArrow(currentX) {
       const dx = currentX - startX;
       const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
-      let newLeft = Math.max(3, Math.min(3 + dx, maxOffset));
+      let newLeft = Math.max(3, Math.min(startLeft + dx, maxOffset));
       arrow.style.left = `${newLeft}px`;
 
-      if (newLeft >= maxOffset) {
-        isDragging = false;
-        cover.style.display = 'none';
-        mainContent.style.display = 'block';
-        document.body.style.overflow = 'auto';
+      // Ավելացրել ենք threshold-ի ստուգում
+      if (newLeft >= maxOffset - 10) { // 10px threshold
+        completeSlide();
       }
     }
 
+    function completeSlide() {
+      isDragging = false;
+      cover.style.opacity = '0';
+      cover.style.transition = 'opacity 0.5s ease';
+      setTimeout(() => {
+        cover.style.display = 'none';
+        mainContent.style.display = 'block';
+        document.body.style.overflow = 'auto';
+      }, 500);
+    }
+
+    // Mouse events
     arrow.addEventListener('mousedown', (e) => {
       e.preventDefault();
       isDragging = true;
       startX = e.clientX;
+      startLeft = parseInt(arrow.style.left || '3');
       arrow.style.transition = 'none';
       video.play().catch(() => {});
     });
@@ -204,13 +219,15 @@
       moveArrow(e.clientX);
     });
 
+    // Touch events - վերափոխված
     arrow.addEventListener('touchstart', (e) => {
       e.preventDefault();
       isDragging = true;
       startX = e.touches[0].clientX;
+      startLeft = parseInt(arrow.style.left || '3');
       arrow.style.transition = 'none';
       video.play().catch(() => {});
-    });
+    }, { passive: false });
 
     document.addEventListener('touchend', (e) => {
       if (isDragging) {
@@ -218,17 +235,29 @@
         isDragging = false;
         arrow.style.transition = 'left 0.5s ease';
         const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
-        if (parseInt(arrow.style.left) < maxOffset) {
+        if (parseInt(arrow.style.left || '3') < maxOffset) {
           arrow.style.left = '3px';
         }
       }
-    });
+    }, { passive: false });
 
     document.addEventListener('touchmove', (e) => {
       if (!isDragging) return;
       e.preventDefault();
       moveArrow(e.touches[0].clientX);
-    });
+    }, { passive: false });
+
+    // Ավելացրել ենք viewport meta tag-ի համար լրացուցիչ ստուգում
+    function fixViewport() {
+      let viewport = document.querySelector('meta[name=viewport]');
+      if (!viewport) {
+        viewport = document.createElement('meta');
+        viewport.name = 'viewport';
+        document.head.appendChild(viewport);
+      }
+      viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+    }
+    fixViewport();
   </script>
 </body>
 </html>
