@@ -42,13 +42,13 @@
 /* Սլայդեր */
 .slider {
   position: absolute;
-  width: 220px; /* Նախկինում 280px */
-  height: 50px; /* Նախկինում 60px */
+  width: 220px;
+  height: 50px;
   bottom: 15vh;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 45%; /* Նախկինում 50% */
+  transform: translateX(-45%); /* Նախկինում -50% */
   background: rgba(0, 0, 0, 0.4);
-  border-radius: 25px; /* Նախկինում 30px */
+  border-radius: 25px;
   display: flex;
   align-items: center;
   padding: 0 3px;
@@ -87,6 +87,8 @@
 
 @media (max-width: 768px) {
   .slider {
+    left: 44%; /* Մոբայլի համար ավելի շատ ձախ */
+    transform: translateX(-44%); /* Մոբայլի համար ավելի շատ ձախ */
     width: 200px; /* Նախկինում 270px */
     height: 55px; /* Նախկինում 70px */
     bottom: 15vh;
