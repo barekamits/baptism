@@ -45,45 +45,49 @@
   width: 200px;
   height: 50px;
   bottom: 15vh;
-  left: 35%; /* Նախկինում 50% */
-  transform: translateX(-35%); /* Նախկինում -50% */
-  background: rgba(0, 0, 0, 0.4);
+  left: 35%;
+  transform: translateX(-35%);
+  background: transparent; /* Թափանցիկ ֆոն */
+  border: 2px dashed white; /* Սպիտակ կետագիծ */
   border-radius: 25px;
   display: flex;
   align-items: center;
   padding: 0 3px;
   z-index: 102;
   touch-action: none;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 8px rgba(0,0,0,0.2); /* Տեսանելիության համար */
 }
-
+/* Ձախի սպիտակ շրջանակ (սլաքի համար) */
 .arrow {
-  width: 44px; /* Նախկինում 54px */
-  height: 44px; /* Նախկինում 54px */
-  background: rgba(255, 255, 255, 0.9);
+  width: 44px;
+  height: 44px;
+  background: white; /* Մաքուր սպիտակ */
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  user-select: none;
   position: absolute;
   left: 3px;
   transition: left 0.5s ease;
   z-index: 103;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* Նախկինում 8px */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
+/* Աջի սպիտակ շրջանակ */
 .circle {
-  width: 44px; /* Նախկինում 54px */
-  height: 44px; /* Նախկինում 54px */
-  background: rgba(0, 0, 0, 0.3);
+  width: 44px;
+  height: 44px;
+  background: white; /* Նույնը, ինչ ձախում */
   border-radius: 50%;
   position: absolute;
   right: 3px;
   z-index: 101;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
+
+
+
 
 @media (max-width: 768px) {
   .slider {
