@@ -40,17 +40,17 @@
     }
 
 /* 1. Ավելացրեք այս @keyframes-ը ձեր CSS-ի սկզբում կամ վերջում */
-@keyframes smoothSlideIn {
+/* Դանդաղ, հեղուկ անիմացիա */
+@keyframes slowSmoothAppear {
   0% {
     opacity: 0;
-    transform: translateX(-35%) translateY(20px); /* Նույն X-հաշվարկը, + Y-ով տեղաշարժ */
+    transform: translateX(-35%) translateY(10px);
   }
   100% {
     opacity: 1;
-    transform: translateX(-35%) translateY(0); /* Նույնը, ինչ ձեր նախկին transform-ը */
+    transform: translateX(-35%) translateY(0);
   }
 }
-
 /* 2. Ավելացրեք animation-ը ձեր .slider դասին (մնացածը նույնն է) */
 .slider {
   position: absolute;
@@ -69,7 +69,7 @@
   touch-action: none;
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
   /* ՆՈՐ ՏՈՂԵԿԱՆ */
-  animation: smoothSlideIn 0.8s ease-out forwards;
+    animation: slowSmoothAppear 1.8s ease-in-out forwards; /* 1.2 վայրկյան */
 }
 /* Ձախի սպիտակ շրջանակ (սլաքի համար) */
 .arrow {
