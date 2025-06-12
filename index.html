@@ -39,7 +39,19 @@
       z-index: -1;
     }
 
-/* Սլայդեր */
+/* 1. Ավելացրեք այս @keyframes-ը ձեր CSS-ի սկզբում կամ վերջում */
+@keyframes smoothSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-35%) translateY(20px); /* Նույն X-հաշվարկը, + Y-ով տեղաշարժ */
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-35%) translateY(0); /* Նույնը, ինչ ձեր նախկին transform-ը */
+  }
+}
+
+/* 2. Ավելացրեք animation-ը ձեր .slider դասին (մնացածը նույնն է) */
 .slider {
   position: absolute;
   width: 200px;
@@ -47,15 +59,17 @@
   bottom: 15vh;
   left: 35%;
   transform: translateX(-35%);
-  background: transparent; /* Թափանցիկ ֆոն */
-  border: 2px dashed white; /* Սպիտակ կետագիծ */
+  background: transparent;
+  border: 2px dashed white;
   border-radius: 25px;
   display: flex;
   align-items: center;
   padding: 0 3px;
   z-index: 102;
   touch-action: none;
-  box-shadow: 0 0 8px rgba(0,0,0,0.2); /* Տեսանելիության համար */
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+  /* ՆՈՐ ՏՈՂԵԿԱՆ */
+  animation: smoothSlideIn 0.8s ease-out forwards;
 }
 /* Ձախի սպիտակ շրջանակ (սլաքի համար) */
 .arrow {
