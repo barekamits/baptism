@@ -28,70 +28,52 @@ video#bg-video {
   object-fit: cover;  /* Այստեղ cover, ոչ contain */
   z-index: -1;
 }
-    @media (max-width: 768px) {
+@media (max-width: 768px) {
   video#bg-video {
     object-fit: contain;
-    background-color: black; /* կամ տիրույթի ֆոնի գույն */
+    background-color: black;
   }
-}
-    .slider {
-      
-      position: fixed;
-      bottom: 13%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 200px;
-      height: 49px;
-      border: 2px silver solid;
-      border-radius: 25px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      cursor: pointer;
-      padding: 3px;
-      box-sizing: border-box;
-      z-index: 10;
-      background: rgba(0,0,0,0.3);
-    }
-    @media (max-width: 400px) {
+
   .slider {
-    height: 45px;
+    width: 240px;
+    height: 60px;
+    bottom: 6%;         /* Իջեցրու կամ բարձրացրու ըստ էկրանի չափի */
+    left: 50%;
+    transform: translateX(-50%);
   }
+
   .arrow, .circle {
-    width: 42px;
-    height: 42px;
+    width: 54px;
+    height: 54px;
+  }
+
+  .arrow {
+    font-size: 28px;
   }
 }
-    .circle {
-      width: 40px;
-      height: 44px;
-      border-radius: 50%;
-      background-color: transparent;
-      border: 2px silver;
-      position: absolute;
-      right: 1px;
-      z-index: 1;
-    }
-    .arrow {
-      width: 44px;
-      height: 44px;
-      background-color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: absolute;
-      left: 3px;
-      transition: left 0.5s ease;
-      z-index: 2;
-      font-size: 24px;
-      color: black;
-      user-select: none;
-    }
+
+@media (max-width: 400px) {
+  .slider {
+    width: 220px;
+    height: 55px;
+    bottom: 4%;
+  }
+
+  .arrow, .circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .arrow {
+    font-size: 26px;
+  }
+}
+
     .arrow svg {
       width: 16px;
       height: 16px;
     }
+
 
     /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
     #main-content {
