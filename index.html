@@ -42,25 +42,25 @@
 /* Սլայդեր */
 .slider {
   position: absolute;
-  width: 280px;
-  height: 60px;
+  width: 220px; /* Նախկինում 280px */
+  height: 50px; /* Նախկինում 60px */
   bottom: 15vh;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.4); /* Փոխված է սպիտակից սևի */
-  border-radius: 30px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 25px; /* Նախկինում 30px */
   display: flex;
   align-items: center;
   padding: 0 3px;
   z-index: 102;
   touch-action: none;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Ավելացրել եմ border */
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .arrow {
-  width: 54px;
-  height: 54px;
-  background: rgba(255, 255, 255, 0.9); /* Փոքր-ինչ ավելի մուգ սպիտակ */
+  width: 44px; /* Նախկինում 54px */
+  height: 44px; /* Նախկինում 54px */
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -71,42 +71,38 @@
   left: 3px;
   transition: left 0.5s ease;
   z-index: 103;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3); /* Ավելի նկատելի ստվեր */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* Նախկինում 8px */
 }
 
 .circle {
-  width: 54px;
-  height: 54px;
-  background: rgba(0, 0, 0, 0.3); /* Փոխված է սպիտակից սևի */
+  width: 44px; /* Նախկինում 54px */
+  height: 44px; /* Նախկինում 54px */
+  background: rgba(0, 0, 0, 0.3);
   border-radius: 50%;
   position: absolute;
   right: 3px;
   z-index: 101;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* Ավելացրել եմ border */
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @media (max-width: 768px) {
   .slider {
-    width: 270px;
-    height: 70px;
+    width: 200px; /* Նախկինում 270px */
+    height: 55px; /* Նախկինում 70px */
     bottom: 15vh;
-    background: rgba(0, 0, 0, 0.4); /* Նույնը մոբայլի համար */
+    border-radius: 27px; /* Նախկինում 30px */
   }
 
   .arrow, .circle {
-    width: 60px;
-    height: 60px;
+    width: 50px; /* Նախկինում 60px */
+    height: 50px; /* Նախկինում 60px */
   }
 
-  .arrow {
-    background: rgba(255, 255, 255, 0.9); /* Նույնը մոբայլի համար */
-  }
-
-  .circle {
-    background: rgba(0, 0, 0, 0.3); /* Նույնը մոբայլի համար */
+  .arrow svg {
+    width: 18px; /* Նախկինում 20px */
+    height: 18px; /* Նախկինում 20px */
   }
 }
-
 
     /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
     #main-content {
