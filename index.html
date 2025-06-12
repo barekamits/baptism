@@ -28,50 +28,69 @@ video#bg-video {
   object-fit: cover;  /* Այստեղ cover, ոչ contain */
   z-index: -1;
 }
-@media (max-width: 768px) {
-  video#bg-video {
-    object-fit: contain;
-    background-color: black;
-  }
+   /* Սլայդեր */
+    .slider {
+      position: absolute;
+      width: 280px;
+      height: 60px;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      padding: 0 3px;
+      z-index: 102;
+    }
 
-  .slider {
-    width: 240px;
-    height: 60px;
-    bottom: 6%;         /* Իջեցրու կամ բարձրացրու ըստ էկրանի չափի */
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .arrow, .circle {
-    width: 54px;
-    height: 54px;
-  }
-
-  .arrow {
-    font-size: 28px;
-  }
-}
-
-@media (max-width: 400px) {
-  .slider {
-    width: 220px;
-    height: 55px;
-    bottom: 4%;
-  }
-
-  .arrow, .circle {
-    width: 50px;
-    height: 50px;
-  }
-
-  .arrow {
-    font-size: 26px;
-  }
-}
+    .arrow {
+      width: 54px;
+      height: 54px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      position: absolute;
+      left: 3px;
+      transition: left 0.5s ease;
+      z-index: 103;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
 
     .arrow svg {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .circle {
+      width: 54px;
+      height: 54px;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      position: absolute;
+      right: 3px;
+      z-index: 101;
+    }
+ @media (max-width: 360px) {
+      .slider {
+        width: 220px;
+        height: 48px;
+        bottom: 8%;
+      }
+      
+      .arrow, .circle {
+        width: 42px;
+        height: 42px;
+      }
+      
+      .arrow svg {
+        width: 14px;
+        height: 14px;
+      }
     }
 
 
@@ -87,6 +106,7 @@ video#bg-video {
       z-index: 1;
       position: relative;
     }
+    
   </style>
 </head>
 <body>
@@ -97,6 +117,7 @@ video#bg-video {
       Ձեր դիտարկիչը չի աջակցում վիդեո ցուցադրմանը։
     </video>
 
+    <!-- Սլայդեր -->
     <div class="slider" id="slider">
       <div class="arrow" id="arrow">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -115,63 +136,98 @@ video#bg-video {
   </div>
 
   <script>
-  // Touch start
-arrow.addEventListener('touchstart', (e) => {
-  isDragging = true;
-  startX = e.touches[0].clientX;
-  arrow.style.transition = 'none';
-  video.play().catch(() => {});
-});
+     // Տարրերի ձեռք բերում
+    const slider = document.getElementById('slider');
+    const arrow = document.getElementById('arrow');
+    const cover = document.getElementById('cover');
+    const mainContent = document.getElementById('main-content');
+    const video = document.getElementById('bg-video');
+    
+    // Փոփոխականներ
+    let isDragging = false;
+    let startX = 0;
 
-// Mouse up
-document.addEventListener('mouseup', () => {
-  if (isDragging) {
-    isDragging = false;
-    arrow.style.transition = 'left 0.5s ease';
-    const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
-    if (parseInt(arrow.style.left) < maxOffset) {
-      arrow.style.left = '3px';
+    // Ամսաթվի ցուցադրում
+    function displayCurrentDate() {
+      const now = new Date();
+      const months = [
+        'Հունվար', 'Փետրվար', 'Մարտ', 'Ապրիլ', 'Մայիս', 'Հունիս',
+        'Հուլիս', 'Օգոստոս', 'Սեպտեմբեր', 'Հոկտեմբեր', 'Նոյեմբեր', 'Դեկտեմբեր'
+      ];
+      
+      document.getElementById('current-month').textContent = months[now.getMonth()];
+      document.getElementById('current-day').textContent = now.getDate();
     }
-  }
-});
 
-// Touch end
-document.addEventListener('touchend', () => {
-  if (isDragging) {
-    isDragging = false;
-    arrow.style.transition = 'left 0.5s ease';
-    const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
-    if (parseInt(arrow.style.left) < maxOffset) {
-      arrow.style.left = '3px';
+    // Սլայդերի շարժման ֆունկցիա
+    function moveArrow(currentX) {
+      const dx = currentX - startX;
+      const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+      let newLeft = Math.max(3, Math.min(3 + dx, maxOffset));
+      arrow.style.left = `${newLeft}px`;
+      
+      // Եթե հասել է վերջին կետին
+      if (newLeft >= maxOffset) {
+        isDragging = false;
+        cover.style.display = 'none';
+        mainContent.style.display = 'block';
+        document.body.style.overflow = 'auto';
+      }
     }
-  }
-});
 
-// Mouse move
-document.addEventListener('mousemove', (e) => {
-  if (!isDragging) return;
-  moveArrow(e.clientX);
-});
+    // Mouse events
+    arrow.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isDragging = true;
+      startX = e.clientX;
+      arrow.style.transition = 'none';
+      video.play().catch(() => {});
+    });
 
-// Touch move
-document.addEventListener('touchmove', (e) => {
-  if (!isDragging) return;
-  moveArrow(e.touches[0].clientX);
-});
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        arrow.style.transition = 'left 0.5s ease';
+        const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+        if (parseInt(arrow.style.left) < maxOffset) {
+          arrow.style.left = '3px';
+        }
+      }
+    });
 
-// Ընդհանուր ֆունկցիա՝ մկնիկ/մատ շարժելու համար
-function moveArrow(currentX) {
-  const dx = currentX - startX;
-  const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
-  let newLeft = Math.max(3, Math.min(3 + dx, maxOffset));
-  arrow.style.left = `${newLeft}px`;
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      moveArrow(e.clientX);
+    });
 
-  if (newLeft >= maxOffset) {
-    isDragging = false;
-    cover.style.display = 'none';
-    mainContent.style.display = 'block';
-  }
-}
+    // Touch events
+    arrow.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      arrow.style.transition = 'none';
+      video.play().catch(() => {});
+    });
+
+    document.addEventListener('touchend', (e) => {
+      if (isDragging) {
+        e.preventDefault();
+        isDragging = false;
+        arrow.style.transition = 'left 0.5s ease';
+        const maxOffset = slider.clientWidth - arrow.clientWidth - 6;
+        if (parseInt(arrow.style.left) < maxOffset) {
+          arrow.style.left = '3px';
+        }
+      }
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      moveArrow(e.touches[0].clientX);
+    });
+
 
   </script>
 </body>
