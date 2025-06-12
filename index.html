@@ -75,23 +75,25 @@ video#bg-video {
       right: 3px;
       z-index: 101;
     }
- @media (max-width: 360px) {
-      .slider {
-        width: 220px;
-        height: 48px;
-        bottom: 8%;
-      }
-      
-      .arrow, .circle {
-        width: 42px;
-        height: 42px;
-      }
-      
-      .arrow svg {
-        width: 14px;
-        height: 14px;
-      }
-    }
+@media (max-width: 768px) {
+  .slider {
+    width: 300px;           /* Ավելի լայն */
+    height: 70px;           /* Ավելի բարձր */
+    bottom: 5%;             /* Նվազեցնում ենք հեռավորությունը ներքևից */
+    left: 10%;              /* Տեղափոխում ենք ձախ (մոտ 10% դեպի աջ) */
+    transform: none;        /* Հանում ենք կենտրոնացման փոխակերպումը */
+  }
+
+  .arrow, .circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+}
 
 
     /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
