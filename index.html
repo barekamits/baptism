@@ -47,22 +47,20 @@
       z-index: -1;
     }
 
-    /* Մոբայլի համար վիդեոյի հատուկ կարգավորումներ */
-    @media (max-width: 768px) {
-      video#bg-video {
-        /* Վերադարձնում ենք cover, բայց փոխում positioning */
-        object-fit: cover;
-        object-position: 20% center; /* Ցույց տալ ավելի ձախ մասը */
-      }
-    }
+ /* Մոբայլի համար վիդեոյի հատուկ կարգավորումներ */
+@media (max-width: 768px) {
+  video#bg-video {
+    object-fit: cover;
+    object-position: center center; /* փոխել 20% → center */
+  }
+}
 
-    /* iPhone SE և նմանատիպ փոքր էկրանների համար */
-    @media (max-width: 400px) {
-      video#bg-video {
-        object-position: 15% center;
-      }
-    }
-
+/* iPhone SE և նմանատիպ փոքր էկրանների համար */
+@media (max-width: 400px) {
+  video#bg-video {
+    object-position: center center; /* փոխել 15% → center */
+  }
+}
 /* Դանդաղ, հեղուկ անիմացիա */
 @keyframes slowSmoothAppear {
   0% {
@@ -147,7 +145,8 @@
 
     /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
     #main-content {
-      display: none;
+      display: block;
+      visibility: hidden;
       /* Փոփոխված padding և margin մոբայլի համար */
       padding: 20px;
       max-width: 800px;
@@ -737,7 +736,7 @@
       cover.style.transition = 'opacity 0.5s ease';
       setTimeout(() => {
         cover.style.display = 'none';
-        mainContent.style.display = 'block';
+        mainContent.style.visibility = 'visible';
         document.body.style.overflow = 'auto';
         // Ավելացված scroll վերև
         window.scrollTo(0, 0);
