@@ -73,14 +73,13 @@ body, html {
 
 .slider {
   position: absolute;
-  width: 200px;
-  height: 50px;
-  bottom: 15vh;
-  left: 35%;
-  transform: translateX(-35%);
+  left: 24px;      /* կամ քո ուզած չափսը */
+  bottom: 24px;    /* կամ քո ուզած չափսը */
+  width: 200px;    /* կամ քո ուզած լայնությունը */
+  height: 50px;    /* կամ քո ուզած բարձրությունը */
+  border-radius: 25px;
   background: transparent;
   border: 2px dashed white;
-  border-radius: 25px;
   display: flex;
   align-items: center;
   padding: 0 3px;
@@ -88,6 +87,7 @@ body, html {
   touch-action: none;
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
   animation: slowSmoothAppear 1.8s ease-in-out forwards;
+  transform: none; /* Կենտրոնացնելու transform-ը ջնջիր */
 }
 
 /* Ձախի սպիտակ շրջանակ (սլաքի համար) */
@@ -121,23 +121,20 @@ body, html {
 
 @media (max-width: 768px) {
   .slider {
-    left: 34%;
-    transform: translateX(-34%);
-    width: 195px;
-    height: 55px;
-    bottom: 15vh;
-    border-radius: 27px;
+    left: 12px;
+    bottom: 12px;
+    width: 140px;
+    height: 38px;
+    border-radius: 19px;
   }
-
   .arrow, .circle {
-    width: 50px;
-    height: 50px;
+    width: 32px;
+    height: 32px;
   }
-
   .arrow svg {
-    width: 18px;
-    height: 18px;
-    stroke: #555555;
+    width: 14px;
+    height: 14px;
+    stroke: #8b7355; /* կամ քո ուզած գույնը */
   }
 }
 
