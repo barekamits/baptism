@@ -10,16 +10,15 @@
       font-family: 'Vrdznagir';
       src: url('Vrdznagir.otf') format('opentype');
     }
-    body, html {
-      margin: 0; padding: 0; height: 100%;
-      background:white;
-      color: black;
-      font-family: 'Great Vibes', cursive;
-      touch-action: none;
-      /* Հավելված մոբայլի համար */
-      -webkit-overflow-scrolling: touch;
-      -webkit-text-size-adjust: 100%;
-    }
+body, html {
+  margin: 0; padding: 0; height: 100%;
+  background:white;
+  color: black;
+  font-family: 'Great Vibes', cursive;
+  /* touch-action: none;  <--- ՀԱՆԵԼ կամ մեկնաբանել */
+  -webkit-overflow-scrolling: touch;
+  -webkit-text-size-adjust: 100%;
+}
 
     /* Կառավարում ենք իրական viewport-ի բարձրությունը մոբայլում */
     :root {
@@ -28,6 +27,7 @@
 
     /* --- Cover (վիդեո + սլայդեր) --- */
     #cover {
+      touch-action: none;
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
