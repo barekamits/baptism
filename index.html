@@ -16,7 +16,10 @@
       background:white;
       color: black;
       font-family: 'Great Vibes', cursive;
-      touch-action: none; /* Ավելացրել ենք touch-action */
+      touch-action: none;
+      /* Հավելված մոբայլի համար */
+      -webkit-overflow-scrolling: touch;
+      -webkit-text-size-adjust: 100%;
     }
 
     /* Կառավարում ենք իրական viewport-ի բարձրությունը մոբայլում */
@@ -44,7 +47,22 @@
       z-index: -1;
     }
 
-/* 1. Ավելացրեք այս @keyframes-ը ձեր CSS-ի սկզբում կամ վերջում */
+    /* Մոբայլի համար վիդեոյի հատուկ կարգավորումներ */
+    @media (max-width: 768px) {
+      video#bg-video {
+        /* Վերադարձնում ենք cover, բայց փոխում positioning */
+        object-fit: cover;
+        object-position: 20% center; /* Ցույց տալ ավելի ձախ մասը */
+      }
+    }
+
+    /* iPhone SE և նմանատիպ փոքր էկրանների համար */
+    @media (max-width: 400px) {
+      video#bg-video {
+        object-position: 15% center;
+      }
+    }
+
 /* Դանդաղ, հեղուկ անիմացիա */
 @keyframes slowSmoothAppear {
   0% {
@@ -56,7 +74,7 @@
     transform: translateX(-35%) translateY(0);
   }
 }
-/* 2. Ավելացրեք animation-ը ձեր .slider դասին (մնացածը նույնն է) */
+
 .slider {
   position: absolute;
   width: 200px;
@@ -73,14 +91,14 @@
   z-index: 102;
   touch-action: none;
   box-shadow: 0 0 8px rgba(0,0,0,0.2);
-  /* ՆՈՐ ՏՈՂԵԿԱՆ */
-    animation: slowSmoothAppear 1.8s ease-in-out forwards; /* 1.2 վայրկյան */
+  animation: slowSmoothAppear 1.8s ease-in-out forwards;
 }
+
 /* Ձախի սպիտակ շրջանակ (սլաքի համար) */
 .arrow {
   width: 44px;
   height: 44px;
-  background: white; /* Մաքուր սպիտակ */
+  background: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -97,7 +115,7 @@
 .circle {
   width: 44px;
   height: 44px;
-  background: white; /* Նույնը, ինչ ձախում */
+  background: white;
   border-radius: 50%;
   position: absolute;
   right: 3px;
@@ -105,47 +123,61 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
-
-
-
 @media (max-width: 768px) {
   .slider {
-    left: 34%; /* Մոբայլի համար ավելի շատ ձախ */
-    transform: translateX(-34%); /* Մոբայլի համար ավելի շատ ձախ */
-    width: 195px; /* Նախկինում 270px */
-    height: 55px; /* Նախկինում 70px */
+    left: 34%;
+    transform: translateX(-34%);
+    width: 195px;
+    height: 55px;
     bottom: 15vh;
-    border-radius: 27px; /* Նախկինում 30px */
+    border-radius: 27px;
   }
 
   .arrow, .circle {
-    width: 50px; /* Նախկինում 60px */
-    height: 50px; /* Նախկինում 60px */
+    width: 50px;
+    height: 50px;
   }
 
   .arrow svg {
-    width: 18px; /* Նախկինում 20px */
-    height: 18px; /* Նախկինում 20px */
-    stroke: #555555; /* Միջին մոխրագույն */
+    width: 18px;
+    height: 18px;
+    stroke: #555555;
   }
 }
 
     /* --- Հիմնական կոնտենտ (սկզբում թաքնված) --- */
     #main-content {
       display: none;
-      padding: 40px;
+      /* Փոփոխված padding և margin մոբայլի համար */
+      padding: 20px;
       max-width: 800px;
-      margin: 100px auto;
+      margin: 0 auto;
       text-align: center;
       font-size: 24px;
       line-height: 1.5;
       z-index: 1;
       position: relative;
+      /* Ավելացված մոբայլի համար */
+      min-height: 100vh;
+      box-sizing: border-box;
     }
+
+    /* Մոբայլի հատուկ կարգավորումներ */
+    @media (max-width: 768px) {
+      #main-content {
+        padding: 15px;
+        font-size: 20px;
+        /* Փոքր padding վերևից */
+        padding-top: 10px;
+      }
+    }
+
 .wings {
   position: relative;
   display: inline-block;
   animation: fadeInFloat 2s ease-out forwards;
+  /* Ավելացված մոբայլի համար */
+  margin-top: 20px;
 }
 
 @keyframes fadeInFloat {
@@ -163,6 +195,13 @@
   display: block;
   max-width: 340px;
   animation: gentlePulse 4s ease-in-out infinite alternate;
+}
+
+/* Մոբայլի համար փոքր նկար */
+@media (max-width: 768px) {
+  .wings img {
+    max-width: 250px;
+  }
 }
 
 @keyframes gentlePulse {
@@ -187,6 +226,14 @@
       letter-spacing: 4px;
       color: #2c2c2c;
       margin-bottom: 10px;
+    }
+
+    /* Մոբայլի համար փոքր տառ */
+    @media (max-width: 768px) {
+      .wedding-date {
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+      }
     }
 
     @keyframes slideUp {
@@ -214,11 +261,26 @@
       letter-spacing: 1px;
     }
 
+    /* Մոբայլի համար փոքր կալենդար */
+    @media (max-width: 768px) {
+      .calendar {
+        margin-top: 20px;
+        font-size: 16px;
+      }
+    }
+
     .calendar .month {
-      font-family: 'Great Vibes'cursive;
+      font-family: 'Great Vibes', cursive;
       font-weight: bold;
       font-size: 35px;
       margin-bottom: 10px;
+    }
+
+    /* Մոբայլի համար փոքր ամսվա նշում */
+    @media (max-width: 768px) {
+      .calendar .month {
+        font-size: 28px;
+      }
     }
 
     .calendar .weekdays {
@@ -233,6 +295,14 @@
       grid-template-columns: repeat(7, 1fr);
       max-width: 420px;
       margin: 0 auto;
+    }
+
+    /* Մոբայլի համար փոքր կալենդար */
+    @media (max-width: 768px) {
+      .calendar .weekdays,
+      .calendar .dates {
+        max-width: 300px;
+      }
     }
 
     .dates > div {
@@ -268,10 +338,25 @@
       font-size: 16px;
     }
 
+    /* Մոբայլի համար փոքր heart-text */
+    @media (max-width: 768px) {
+      .heart-text {
+        font-size: 14px;
+      }
+    }
+
     .script {
       font-family:'Vrdznagir';
       font-size: 48px;
       margin: 40px 0 5px;
+    }
+
+    /* Մոբայլի համար փոքր script */
+    @media (max-width: 768px) {
+      .script {
+        font-size: 36px;
+        margin: 25px 0 5px;
+      }
     }
 
     .small-text {
@@ -287,12 +372,27 @@
   color: #333;
 }
 
+/* Մոբայլի համար փոքր baby-name */
+@media (max-width: 768px) {
+  .baby-name {
+    font-size: 28px;
+  }
+}
+
     .info {
       font-family:'Vrdznagir';
       font-size: 25px;
       letter-spacing: 1px;
       line-height: 1.6;
     }
+
+    /* Մոբայլի համար փոքր info */
+    @media (max-width: 768px) {
+      .info {
+        font-size: 20px;
+      }
+    }
+
             .invitation {
     background: white;
     width: 100%;
@@ -303,9 +403,19 @@
     border-radius: 15px;
     position: relative;
     overflow: hidden;
-    margin: 20px auto; /* Սա է կարևորը - auto-ով կցենտրացնի */
+    margin: 20px auto;
     box-sizing: border-box;
 }
+
+/* Մոբայլի համար փոքր invitation */
+@media (max-width: 768px) {
+  .invitation {
+    padding: 40px 25px;
+    margin: 15px auto;
+    max-width: 350px;
+  }
+}
+
         .invitation::before {
             content: '';
             position: absolute;
@@ -323,6 +433,15 @@
             max-height: 80px;
             object-fit: contain;
         }
+
+        /* Մոբայլի համար փոքր icon */
+        @media (max-width: 768px) {
+          .icon-img {
+            max-width: 60px;
+            max-height: 60px;
+            margin: 0 auto 15px;
+          }
+        }
         
         .ceremony-title, .reception-title {
             font-family: 'Vrdznagir';
@@ -332,6 +451,13 @@
             margin-bottom: 10px;
             font-weight: 400;
         }
+
+        /* Մոբայլի համար փոքր title */
+        @media (max-width: 768px) {
+          .ceremony-title, .reception-title {
+            font-size: 28px;
+          }
+        }
         
         .venue-name {
             font-size: 20px;
@@ -340,12 +466,27 @@
             margin-bottom: 5px;
             letter-spacing: 2px;
         }
+
+        /* Մոբայլի համար փոքր venue-name */
+        @media (max-width: 768px) {
+          .venue-name {
+            font-size: 16px;
+            letter-spacing: 1px;
+          }
+        }
         
         .address {
             font-size: 14px;
             color: #666;
             margin-bottom: 20px;
             line-height: 1.4;
+        }
+
+        /* Մոբայլի համար փոքր address */
+        @media (max-width: 768px) {
+          .address {
+            font-size: 12px;
+          }
         }
         
         .time {
@@ -354,13 +495,25 @@
             color: #333;
             margin-bottom: 5px;
         }
-        
 
+        /* Մոբայլի համար փոքր time */
+        @media (max-width: 768px) {
+          .time {
+            font-size: 22px;
+          }
+        }
         
         .divider {
             height: 2px;
             background: linear-gradient(90deg, transparent, #d4af37, transparent);
             margin: 40px 0;
+        }
+
+        /* Մոբայլի համար փոքր divider margin */
+        @media (max-width: 768px) {
+          .divider {
+            margin: 25px 0;
+          }
         }
         
         a.map-link {
@@ -374,11 +527,27 @@
             margin-bottom: 30px;
             cursor: pointer;
         }
+
+        /* Մոբայլի համար փոքր map-link */
+        @media (max-width: 768px) {
+          a.map-link {
+            font-size: 12px;
+            margin-bottom: 20px;
+          }
+        }
         
         a.map-link svg {
             fill: #d4af37;
             width: 16px;
             height: 16px;
+        }
+
+        /* Մոբայլի համար փոքր svg */
+        @media (max-width: 768px) {
+          a.map-link svg {
+            width: 14px;
+            height: 14px;
+          }
         }
         
         .full-img {
@@ -390,11 +559,19 @@
         }
         .closing-text {
     font-family: 'Vrdznagir';
-    font-size:35 px;
+    font-size: 35px;
     font-style: italic;
     color: #8b7355;
     margin-top: 20px;
 }
+
+/* Մոբայլի համար փոքր closing-text */
+@media (max-width: 768px) {
+  .closing-text {
+    font-size: 24px;
+  }
+}
+
 .heart-outline {
   vertical-align: middle;
   margin-left: 8px;
@@ -405,8 +582,8 @@
   <!--  վիդեո + սլայդեր -->
   <div id="cover">
     <video id="bg-video" autoplay muted playsinline >
-      <source src="IMG_1028.MP4" type="video/mp4">
-      Ձեր դիտարկիչը չի աջակցում վիդեո ցուցադրմանը։
+      <source src="IMG_1033.MP4" type="video/mp4">
+      Ձեր դիտարկիչը չի աջակցում վիდեո ցուցադրմանը։
     </video>
 
     <!-- Սլայդեր -->
@@ -460,60 +637,67 @@
     </div>
   </div>
 
-  <div class="script">Միացեք մեզ հետ տոնելու</div>
-  <div class="baby-name">Հովհաննեսի Սուրբ Մկրտությունը</div>
-  <div class="info">
-   <p> </p>
+  <div class="script">Սիրով կսպասենք Ձեզ<br> մեր կյանքի կարևորագույն օրը միասին նշելու  </div>
   </div>
 
   
-  <div class="invitation">
-        <!-- Church Image -->
-        <img src="https://assets.onecompiler.app/43gpeysj6/43keb2mje/church.png" alt="Եկեղեցի" class="icon-img" />
-        
-        <div class="ceremony-title">Եկեղեցի</div>
-        <div class="venue-name">ՍՈՒՐԲ ԱՍՏՎԱԾԱԾԻՆ</div>
-        <div class="venue-name">ԵԿԵՂԵՑԻ</div>
-        <div class="address">
-            Արշակունյաց 15, Երևան
-        </div>
-        
-        <div class="time">4:00 PM</div>
-        
-        <a href="https://goo.gl/maps/smW7N9CKYAxpSV4t9" target="_blank" rel="noopener noreferrer" class="map-link" >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
-            Տեսնել քարտեզում
-        </a>
-        
+    <div class="invitation">
+      <!-- Church Image -->
+      <img src="https://assets.onecompiler.app/43gpeysj6/43keb2mje/church.png" alt="Եկեղեցի" class="icon-img" />
 
-        
-        <div class="divider"></div>
-        
-        <!-- Reception Image -->
-        <img src="https://assets.onecompiler.app/43gpeysj6/43keb2mje/champagne-glasses.png" alt="Հյուրասիրություն" class="icon-img" />
-        
-        <div class="reception-title">Ռեստորան</div>
-        <div class="venue-name">Նոր Դվին Ռեստորանային համալիր</div>
-        <div class="address">
-            Արմավիրի մարզ, Էջմիածին <br>
-             Աշտարակի խճուղի, 1 շենք
-        </div>
-        
-        <div class="time">7:00 PM</div>
-        
-        <a href="https://goo.gl/maps/Txv3FVEV6Wx82HsQ9" target="_blank" rel="noopener noreferrer" class="map-link">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
-            Տեսնել քարտեզում
-        </a>
+      <div class="ceremony-title">Եկեղեցի</div>
+      <div class="venue-name">ՍՈՒՐԲ ՀՈՎՀԱՆՆԵՍ</div>
+      <div class="venue-name"> ՄԿՐՏԻՉ ԵԿԵՂԵՑԻ</div>
+    
+
+      <div class="time">16։00</div>
+
+      <a class="map-link" onclick="toggleMap('map1')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5
+           c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        Տեսնել քարտեզում
+      </a>
+
+      <!-- ՔԱՐՏԵԶԸ ԱՀԱ ԱՅՍՏԵՂ ԴԻՐ -->
+      <div id="map1" style="display:none; margin-top: 20px;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d297.8759322200525!2d44.50385198427962!3d40.18535304329536!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd90b5ae9c09%3A0x19f3ee65974cfcb7!2sSaint%20John%20the%20Baptist%20Church!5e0!3m2!1sen!2sam!4v1749836161158!5m2!1sen!2sam" 
+          width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy">
+        </iframe>
       </div>
-         
+
+      <div class="divider"></div>
+
+      <!-- Reception Image -->
+      <img src="https://assets.onecompiler.app/43gpeysj6/43keb2mje/champagne-glasses.png" alt="Հյուրասիրություն" class="icon-img" />
+
+      <div class="reception-title">Ռեստորան</div>
+      <div class="venue-name">Վասպուրական Ռեստորանային Համալիր</div>
+      <div class="address">
+        Կոտայք <br>
+        103 Քոչինյան Փողոց
+      </div>
+
+      <div class="time">17։30</div>
+
+      <!-- Restaurant Map Toggle -->
+      <a class="map-link" onclick="toggleMap('map2')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5
+           c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        Տեսնել քարտեզում
+      </a>
+      <div id="map2" style="display:none; margin-top: 20px;">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3047.9419113779395!2d44.60390097551598!3d40.188106169523245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406aa4a1dcdc8c95%3A0x89d31a3a89ed3394!2sVaspurakan%20Hotel%20%26%20Restaurant!5e0!3m2!1shy!2sam!4v1749835738613!5m2!1shy!2sam" 
+          width="100%" height="300" style="border:0;" allowfullscreen loading="lazy">
+        </iframe>
+      </div>
     </div>
-  </div>
-  </div>
+
 
   <script>
     // Փոփոխական viewport բարձրության կարգավորում մոբայլի համար
@@ -522,6 +706,7 @@
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     };
     window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh); // Ավելացված
     setVh();
 
     // Տարրերի ձեռք բերում
@@ -541,8 +726,7 @@
       let newLeft = Math.max(3, Math.min(startLeft + dx, maxOffset));
       arrow.style.left = `${newLeft}px`;
 
-      // Ավելացրել ենք threshold-ի ստուգում
-      if (newLeft >= maxOffset - 10) { // 10px threshold
+      if (newLeft >= maxOffset - 10) {
         completeSlide();
       }
     }
@@ -555,6 +739,8 @@
         cover.style.display = 'none';
         mainContent.style.display = 'block';
         document.body.style.overflow = 'auto';
+        // Ավելացված scroll վերև
+        window.scrollTo(0, 0);
       }, 500);
     }
 
@@ -585,7 +771,7 @@
       moveArrow(e.clientX);
     });
 
-    // Touch events - վերափոխված
+    // Touch events
     arrow.addEventListener('touchstart', (e) => {
       e.preventDefault();
       isDragging = true;
@@ -613,7 +799,7 @@
       moveArrow(e.touches[0].clientX);
     }, { passive: false });
 
-    // Ավելացրել ենք viewport meta tag-ի համար լրացուցիչ ստուգում
+    // Viewport meta tag-ի համար լրացուցիչ ստուգում
     function fixViewport() {
       let viewport = document.querySelector('meta[name=viewport]');
       if (!viewport) {
@@ -624,6 +810,24 @@
       viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
     }
     fixViewport();
+   
+      function toggleMap(id) {
+        const target = document.getElementById(id);
+        const allMaps = ['map1', 'map2'];
+
+        allMaps.forEach(mapId => {
+          if (mapId !== id) {
+            document.getElementById(mapId).style.display = 'none';
+          }
+        });
+
+        if (target.style.display === 'block') {
+          target.style.display = 'none';
+        } else {
+          target.style.display = 'block';
+        }
+      }
+   
   </script>
 </body>
 </html>
