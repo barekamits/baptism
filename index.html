@@ -728,20 +728,19 @@ body, html {
       }
     }
 
-    function completeSlide() {
-      isDragging = false;
-      cover.style.opacity = '0';
-      cover.style.transition = 'opacity 0.5s ease';
-      setTimeout(() => {
-        cover.style.display = 'none';
-        mainContent.style.display = 'block';
-        mainContent.style.visibility = 'visible';
-        document.body.style.overflow = 'auto';
-        // Ավելացված scroll վերև
-        window.scrollTo(0, 0);
-      }, 500);
-    }
-
+function completeSlide() {
+  isDragging = false;
+  cover.style.opacity = '0';
+  cover.style.transition = 'opacity 0.5s ease';
+  setTimeout(() => {
+    cover.style.display = 'none';
+    mainContent.style.display = 'block';
+    mainContent.style.visibility = 'visible';
+    document.body.style.overflow = 'auto';
+    document.body.style.touchAction = 'auto'; // Ավելացված տող
+    window.scrollTo(0, 0);
+  }, 500);
+}
     // Mouse events
     arrow.addEventListener('mousedown', (e) => {
       e.preventDefault();
